@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitio Web: Proyecto de Ley IA Colombia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- 
+    Chosen Color Palette: Brilliant Blues
+    Primary Deep Blue: #0A2463
+    Secondary Medium Blue: #3E92CC
+    Accent Light Blue: #D8E4FF
+    Neutral Light Gray: #F0F4F8 (slightly bluish gray)
+    Text Dark: #1E1E1E
+    White: #FFFFFF
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F4F8; /* Neutral Light Gray */
+            color: #1E1E1E; /* Text Dark */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Default max-width */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; 
+            max-height: 400px;
+        }
+        @media (min-width: 768px) { /* md */
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .card {
+            background-color: #FFFFFF; /* White */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            padding: 1rem 1.5rem; /* py-4 px-6 - Adjusted vertical padding here */
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        .primary-title { color: #0A2463; } /* Primary Deep Blue */
+        .secondary-title { color: #0A2463; }
+        .accent-text { color: #3E92CC; } /* Secondary Medium Blue */
+        .section-bg { background-color: #D8E4FF; } /* Accent Light Blue */
+        .icon-style { font-size: 1.5rem; margin-right: 0.5rem; color: #3E92CC; }
+        .flow-item {
+            border-left: 3px solid #3E92CC;
+            padding-left: 1rem;
+            margin-left: 1rem;
+            position: relative;
+        }
+        .flow-item::before {
+            content: '●';
+            position: absolute;
+            left: -0.60rem; 
+            top: 0.05rem;
+            color: #3E92CC;
+            font-size: 1rem;
+            background-color: #F0F4F8;
+            border-radius: 50%;
+            padding: 0 0.1rem;
+        }
+        .accordion-button {
+            background-color: #FFFFFF;
+            color: #0A2463;
+            cursor: pointer;
+            padding: 1rem;
+            width: 100%;
+            text-align: left;
+            border: none;
+            border-bottom: 1px solid #D8E4FF;
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-button:hover {
+            background-color: #f0f4f8;
+        }
+        .accordion-content {
+            padding: 0 1rem;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #3E92CC;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-[#0A2463] text-white py-8 text-center">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-2">Proyecto de Ley para Regular la Inteligencia Artificial en Colombia</h1>
+            <p class="text-xl text-[#D8E4FF]">Hacia un Desarrollo Ético y Responsable: Propuesta normativa para un futuro digital justo y sostenible.</p>
+        </div>
+    </header>
+
+    <nav class="bg-[#3E92CC] sticky-nav shadow-md">
+        <div class="container mx-auto px-4 py-3 flex flex-wrap justify-center md:justify-between items-center">
+            <a href="#introduccion" class="text-white hover:text-[#D8E4FF] px-3 py-2 rounded-md text-sm font-medium">Introducción</a>
+            <a href="#principios" class="text-white hover:text-[#D8E4FF] px-3 py-2 rounded-md text-sm font-medium">Principios Rectores</a>
+            <a href="#riesgos" class="text-white hover:text-[#D8E4FF] px-3 py-2 rounded-md text-sm font-medium">Clasificación de Riesgos</a>
+            <a href="#estructura" class="text-white hover:text-[#D8E4FF] px-3 py-2 rounded-md text-sm font-medium">Estructura</a>
+            <a href="#actores" class="text-white hover:text-[#D8E4FF] px-3 py-2 rounded-md text-sm font-medium">Actores Clave</a>
+            <a href="#impacto" class="text-white hover:text-[#D8E4FF] px-3 py-2 rounded-md text-sm font-medium">Impacto Esperado</a>
+            <a href="#consultor-ia" class="text-white hover:text-[#D8E4FF] px-3 py-2 rounded-md text-sm font-medium">Consultor IA</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+
+        <section id="introduccion" class="mb-12 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold primary-title mb-4 text-center">1. Introducción y Contexto</h2>
+            <p class="text-lg text-center mb-8 text-[#1E1E1E]">Este proyecto de ley surge como una respuesta a la rápida evolución de la inteligencia artificial y su creciente impacto en la sociedad colombiana. Busca establecer un marco normativo que fomente la innovación mientras protege los derechos fundamentales y promueve un desarrollo tecnológico seguro y equitativo.</p>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="card">
+                    <h3 class="text-xl font-semibold secondary-title mb-2">¿Qué es?</h3>
+                    <p>Proyecto de Ley “por medio de la cual se regula la inteligencia artificial en Colombia para garantizar su desarrollo ético y responsable y se dictan otras disposiciones”.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold secondary-title mb-2">Radicado por:</h3>
+                    <p>Ministra de Ciencia, Tecnología e Innovación (Ángela Yesenia Olaya Requene) y Ministro de las Tecnologías de la Información y las Telecomunicaciones (Julián Molina Gómez).</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold secondary-title mb-2">Fecha de Radicación:</h3>
+                    <p class="text-2xl font-bold accent-text">7 de mayo de 2025</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold secondary-title mb-2">Propósito General:</h3>
+                    <p>Promover la generación de conocimiento, el desarrollo tecnológico y la implementación de la IA en Colombia de manera territorial, ética, inclusiva, responsable y sostenible, fortaleciendo capacidades y contribuyendo a la prevalencia de los derechos fundamentales.</p>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-semibold secondary-title mb-4 text-center">Justificación del Proyecto</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card text-center">
+                    <span class="icon-style">🚀</span>
+                    <h4 class="text-lg font-semibold mb-1">Potencial Transformador</h4>
+                    <p class="text-sm">La IA es una industria de crecimiento acelerado con potencial en salud, educación, agricultura, seguridad.</p>
+                </div>
+                <div class="card text-center">
+                    <span class="icon-style">🛡️</span>
+                    <h4 class="text-lg font-semibold mb-1">Riesgos Identificados</h4>
+                    <p class="text-sm">Plantea riesgos para derechos fundamentales (privacidad, no discriminación), propiedad intelectual, derecho laboral y seguridad (deepfakes).</p>
+                </div>
+                <div class="card text-center">
+                    <span class="icon-style">⚖️</span>
+                    <h4 class="text-lg font-semibold mb-1">Necesidad Regulatoria</h4>
+                    <p class="text-sm">Existe una necesidad creciente de marcos regulatorios legales, no solo "soft law".</p>
+                </div>
+                <div class="card text-center">
+                    <span class="icon-style">🇨🇴</span>
+                    <h4 class="text-lg font-semibold mb-1">Posicionamiento Regional</h4>
+                    <p class="text-sm">Colombia busca posicionarse como líder regional en adopción responsable de IA.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="principios" class="mb-12 section-bg p-6 rounded-lg pt-16 -mt-16">
+            <h2 class="text-3xl font-bold primary-title mb-4 text-center">2. Principios Rectores</h2>
+            <p class="text-lg text-center mb-8 text-[#1E1E1E]">El proyecto de ley se fundamenta en un conjunto de principios clave derivados de la Constitución Política de Colombia, leyes existentes, la Hoja de Ruta de IA de MinCiencias y directrices internacionales. Estos principios buscan asegurar que el desarrollo y uso de la IA sea ético, justo y beneficioso para toda la sociedad.</p>
+            <div id="principlesContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            </div>
+        </section>
+
+        <section id="riesgos" class="mb-12 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold primary-title mb-4 text-center">3. Clasificación de Riesgos</h2>
+            <p class="text-lg text-center mb-8 text-[#1E1E1E]">La regulación propuesta adopta un enfoque basado en el riesgo, clasificando los sistemas de IA según su potencial impacto y peligrosidad. Esta clasificación determina el nivel de escrutinio y los requisitos aplicables a cada sistema.</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card border-l-4 border-red-500">
+                    <h3 class="text-xl font-semibold text-red-600 mb-2">🚫 Sistemas Prohibidos (Riesgo Inaceptable)</h3>
+                    <p class="mb-2">Representan un riesgo inaceptable para derechos fundamentales, seguridad, bienestar o dignidad. Prohibido su desarrollo, comercialización, etc.</p>
+                    <p class="text-sm font-semibold">Ejemplos:</p>
+                    <ul class="list-disc list-inside text-sm ml-4">
+                        <li>Sistemas sin control humano para corregir fallas.</li>
+                        <li>Sistemas que controlen voluntad física/mental.</li>
+                        <li>Sistemas para discriminación/represión.</li>
+                    </ul>
+                </div>
+                <div class="card border-l-4 border-orange-500">
+                    <h3 class="text-xl font-semibold text-orange-600 mb-2">⚠️ Sistemas de Alto Riesgo</h3>
+                    <p class="mb-2">Pueden afectar significativamente derechos fundamentales, integridad física, seguridad nacional, vida, salud, bienestar. Sujetos a estrictos requisitos.</p>
+                    <p class="text-sm font-semibold">Ejemplos:</p>
+                    <ul class="list-disc list-inside text-sm ml-4 mb-3">
+                        <li>IA en salud, justicia, seguridad pública, servicios financieros/sociales sin revisión humana efectiva.</li>
+                        <li>IA que afecte derechos de menores.</li>
+                        <li>IA en actos terroristas o en entidades mecánicas autónomas.</li>
+                    </ul>
+                    <div class="chart-container h-[250px] max-h-[300px] mt-4">
+                        <canvas id="altoRiesgoChart"></canvas>
+                    </div>
+                     <p class="text-xs text-center mt-1">Requisitos clave para Sistemas de Alto Riesgo.</p>
+                </div>
+                <div class="card border-l-4 border-yellow-500 md:col-span-1">
+                    <h3 class="text-xl font-semibold text-yellow-600 mb-2">🚦 Sistemas de Riesgo Limitado</h3>
+                    <p class="mb-2">Pueden generar afectaciones indirectas o relevantes sobre decisiones personales/económicas. Requieren transparencia.</p>
+                     <ul class="list-disc list-inside text-sm ml-4">
+                        <li>Informar que se interactúa con IA.</li>
+                        <li>Permitir desactivación si es posible.</li>
+                    </ul>
+                </div>
+                <div class="card border-l-4 border-green-500 md:col-span-1">
+                    <h3 class="text-xl font-semibold text-green-600 mb-2">✅ Sistemas de Bajo Riesgo</h3>
+                    <p>Mencionados en el contexto de obligaciones generales de gestión de riesgo, se espera que cumplan con principios éticos básicos y buenas prácticas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="estructura" class="mb-12 section-bg p-6 rounded-lg pt-16 -mt-16">
+            <h2 class="text-3xl font-bold primary-title mb-4 text-center">4. Estructura y Aspectos Clave del Proyecto de Ley</h2>
+            <p class="text-lg text-center mb-8 text-[#1E1E1E]">El proyecto de ley se organiza en varios capítulos que abordan desde la gobernanza y el fomento del ecosistema de IA, hasta la formación, la transformación laboral y las responsabilidades legales. A continuación, se destacan los aspectos más relevantes de cada capítulo.</p>
+            <div id="accordionContainer" class="space-y-2">
+            </div>
+        </section>
+
+        <section id="actores" class="mb-12 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold primary-title mb-4 text-center">5. Actores Clave y Gobernanza</h2>
+            <p class="text-lg text-center mb-8 text-[#1E1E1E]">La implementación y supervisión de esta ley involucra a diversas entidades gubernamentales y define responsabilidades claras para quienes desarrollan y utilizan sistemas de IA en el país.</p>
+            <div class="grid md:grid-cols-2 gap-8 items-start">
+                <div class="card">
+                    <h3 class="text-xl font-semibold secondary-title mb-3 text-center">🏛️ Autoridad Nacional para la IA</h3>
+                    <div class="bg-[#D8E4FF] p-4 rounded-md text-center">
+                        <p class="font-bold text-[#0A2463] text-lg">Ministerio de Ciencia, Tecnología e Innovación</p>
+                        <p class="text-sm text-[#1E1E1E] mt-1">Encargado de supervisar, regular, evaluar, adoptar recomendaciones y mediciones.</p>
+                    </div>
+
+                    <h4 class="text-lg font-semibold secondary-title mt-6 mb-2 text-center">🤝 Otras Entidades Involucradas</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="bg-white p-2 rounded shadow-sm border border-[#D8E4FF]">Ministerio TIC</div>
+                        <div class="bg-white p-2 rounded shadow-sm border border-[#D8E4FF]">Ministerio de Educación Nacional</div>
+                        <div class="bg-white p-2 rounded shadow-sm border border-[#D8E4FF]">Ministerio del Trabajo</div>
+                        <div class="bg-white p-2 rounded shadow-sm border border-[#D8E4FF]">Ministerio de Justicia y del Derecho</div>
+                        <div class="bg-white p-2 rounded shadow-sm border border-[#D8E4FF]">Superintendencia de Industria y Comercio (SIC)</div>
+                        <div class="bg-white p-2 rounded shadow-sm border border-[#D8E4FF]">Consejo Asesor Nacional de Expertos en IA</div>
+                    </div>
+                </div>
+                <div class="card">
+                     <h3 class="text-xl font-semibold secondary-title mb-3 text-center">👤 Responsable de IA</h3>
+                     <p class="text-center">Personas naturales y jurídicas públicas o privadas sujetas a la ley que desarrollen, implementen, comercialicen, distribuyan o utilicen sistemas de IA en Colombia o cuyos sistemas de IA tengan efectos en el territorio colombiano.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="impacto" class="mb-12 section-bg p-6 rounded-lg pt-16 -mt-16">
+            <h2 class="text-3xl font-bold primary-title mb-4 text-center">6. Impacto Esperado</h2>
+             <p class="text-lg text-center mb-8 text-[#1E1E1E]">Se anticipa que esta ley tendrá un impacto multifacético y positivo en Colombia, impulsando el progreso en diversas áreas clave mientras se salvaguardan los derechos y el bienestar de los ciudadanos.</p>
+            <div class="chart-container mx-auto h-[350px] md:h-[400px] max-h-[500px]">
+                <canvas id="impactoEsperadoChart"></canvas>
+            </div>
+            <p class="text-xs text-center mt-2">Visualización del impacto esperado en diferentes sectores.</p>
+        </section>
+
+        <section id="consultor-ia" class="mb-12 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold primary-title mb-4 text-center">7. Consultor de Términos de IA ✨</h2>
+            <p class="text-lg text-center mb-8 text-[#1E1E1E]">¿Tienes dudas sobre algún término relacionado con la Inteligencia Artificial o el Proyecto de Ley en Colombia? ¡Pregúntale a nuestro consultor de IA!</p>
+            <div class="card">
+                <div class="mb-4">
+                    <label for="iaTermInput" class="block text-lg font-semibold secondary-title mb-2">Ingresa un término:</label>
+                    <input type="text" id="iaTermInput" class="w-full p-3 border border-[#D8E4FF] rounded-md focus:outline-none focus:ring-2 focus:ring-[#3E92CC]" placeholder="Ej: Sandboxes Regulatorios, Deepfakes, Ética en IA">
+                </div>
+                <button id="consultIaButton" class="bg-[#3E92CC] text-white font-bold py-3 px-6 rounded-md hover:bg-[#0A2463] transition duration-300 flex items-center justify-center w-full md:w-auto mx-auto">
+                    Consultar ✨
+                    <span id="loadingSpinner" class="loading-spinner hidden"></span>
+                </button>
+                <div id="iaTermResponse" class="mt-6 p-4 bg-[#F0F4F8] border border-[#D8E4FF] rounded-md min-h-[100px] flex items-center justify-center text-center text-[#1E1E1E]">
+                    <p>Aquí aparecerá la explicación del término.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#0A2463] text-white py-6 text-center">
+        <p class="text-sm">&copy; 2025 Sitio Web Proyecto de Ley IA Colombia. Basado en información pública.</p>
+    </footer>
+
+    <script>
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+
+        function wrapLabel(label, maxWidth = 16) {
+            if (typeof label !== 'string' || label.length <= maxWidth) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxWidth && currentLine.length > 0) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            if (currentLine.trim().length > 0) lines.push(currentLine.trim());
+            return lines.length > 0 ? lines : [label];
+        }
+
+        // Chart para Sistemas de Alto Riesgo
+        const ctxAltoRiesgo = document.getElementById('altoRiesgoChart').getContext('2d');
+        new Chart(ctxAltoRiesgo, {
+            type: 'bar',
+            data: {
+                labels: [
+                    wrapLabel('Calidad de Datos'), 
+                    wrapLabel('Transparencia'), 
+                    wrapLabel('Supervisión Humana'), 
+                    wrapLabel('Evaluación de Impacto'), 
+                    wrapLabel('Robustez y Seguridad')
+                ],
+                datasets: [{
+                    label: 'Nivel de Exigencia',
+                    data: [90, 85, 95, 80, 88], // Conceptual data
+                    backgroundColor: '#3E92CC', // Secondary Medium Blue
+                    borderColor: '#0A2463', // Primary Deep Blue
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: { 
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: { color: '#1E1E1E' } 
+                    },
+                    y: { ticks: { color: '#1E1E1E', autoSkip: false } }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: { title: tooltipTitleCallback }
+                    }
+                }
+            }
+        });
+
+        // Chart para Impacto Esperado
+        const ctxImpacto = document.getElementById('impactoEsperadoChart').getContext('2d');
+        new Chart(ctxImpacto, {
+            type: 'radar',
+            data: {
+                labels: [
+                    wrapLabel('Social'), 
+                    wrapLabel('Económico'), 
+                    wrapLabel('Ambiental'), 
+                    wrapLabel('Laboral'), 
+                    wrapLabel('Protección de Derechos')
+                ],
+                datasets: [{
+                    label: 'Nivel de Impacto Positivo Esperado',
+                    data: [9, 8.5, 7.5, 8, 9.5], // Conceptual data (scale 1-10)
+                    fill: true,
+                    backgroundColor: 'rgba(62, 146, 204, 0.4)', // Secondary Medium Blue with alpha
+                    borderColor: '#0A2463', // Primary Deep Blue
+                    pointBackgroundColor: '#0A2463',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#0A2463'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(10, 36, 99, 0.3)' }, // Primary Deep Blue with alpha
+                        grid: { color: 'rgba(10, 36, 99, 0.3)' },
+                        pointLabels: { 
+                            font: { size: 12 },
+                            color: '#1E1E1E'
+                        },
+                        ticks: {
+                            backdropColor: 'transparent',
+                            color: '#1E1E1E',
+                            stepSize: 2,
+                            beginAtZero: true,
+                            max: 10
+                         }
+                    }
+                },
+                plugins: {
+                    legend: { 
+                        labels: { color: '#1E1E1E' }
+                    },
+                    tooltip: {
+                         callbacks: { title: tooltipTitleCallback }
+                    }
+                }
+            }
+        });
+
+        // Acordeón para Estructura del Proyecto de Ley
+        const accordionData = [
+            { 
+                title: "Capítulo IV: Gobernanza", 
+                content: "Define funciones de entes reguladores. Implementación de Sandboxes Regulatorios. Obligaciones de Evaluaciones de Impacto de IA. Creación del Consejo Asesor Nacional de Expertos en IA. Principios para el uso de IA en la administración pública." 
+            },
+            { 
+                title: "Capítulo V: Fortalecimiento del Ecosistema", 
+                content: "Fomento a la investigación, desarrollo e innovación en IA con enfoque ético y sostenible. Financiamiento, infraestructura, colaboración público-privada, apoyo a emprendedores. Menciona uso de obras protegidas por derecho de autor para entrenamiento, respetando derechos." 
+            },
+            { 
+                title: "Capítulo VI: Formación y Apropiación", 
+                content: "Programas de capacitación para empleados y ciudadanos. Armonización de automatización con labores contractuales, reconversión laboral. Promoción de formación en ética y uso responsable. Integración de IA en todos los niveles educativos." 
+            },
+            { 
+                title: "Capítulo VII: Innovación y Transformación Laboral", 
+                content: "Lineamientos de transición justa frente al impacto de la IA en el empleo, protección del empleo, actualización de competencias." 
+            },
+            { 
+                title: "Capítulo VIII: Colaboración Internacional", 
+                content: "Facilitar acuerdos para transferencia segura de datos, colaboración en regulación y acceso a conocimiento global." 
+            },
+            { 
+                title: "Capítulo IX: Procedimiento, Sanciones y Responsabilidades", 
+                content: "Propuesta normativa para actualizar el Código Penal (uso indebido, impactos negativos). Agravación del tipo penal de falsedad personal/suplantación de identidad mediante IA. Define infracciones administrativas (uso de IA prohibida, incumplimiento de requisitos de riesgo, falta de transparencia, etc.). Establece medidas de mitigación y prevención. Define sanciones administrativas: multas, suspensión/cierre de actividades relacionadas con el sistema de IA. Superintendencia de Industria y Comercio (SIC): Responsable de vigilancia y control."
+            },
+            { 
+                title: "Capítulo X: Disposiciones Finales", 
+                content: "Adaptabilidad y revisión periódica de la ley, ajuste de sistemas de IA existentes, mecanismos de financiación (cooperación internacional, APP), gastos sujetos a disponibilidad presupuestaria." 
+            }
+        ];
+
+        const accordionContainer = document.getElementById('accordionContainer');
+        accordionData.forEach((item, index) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.classList.add('card', 'p-0'); // Card styling for each accordion item
+
+            const button = document.createElement('button');
+            button.classList.add('accordion-button', 'flex', 'justify-between', 'items-center', 'font-semibold', 'text-lg', 'rounded-t-md');
+            button.innerHTML = `<span>${item.title}</span><span class="transform transition-transform duration-300">&#9660;</span>`; // Down arrow
+
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('accordion-content');
+            
+            const contentP = document.createElement('p');
+            contentP.classList.add('py-4', 'text-sm');
+            contentP.textContent = item.content;
+            contentDiv.appendChild(contentP);
+
+            itemDiv.appendChild(button);
+            itemDiv.appendChild(contentDiv);
+            accordionContainer.appendChild(itemDiv);
+
+            button.addEventListener('click', () => {
+                const isOpen = contentDiv.style.maxHeight && contentDiv.style.maxHeight !== "0px";
+                // Close all other accordions
+                accordionContainer.querySelectorAll('.accordion-content').forEach(el => {
+                    if (el !== contentDiv) {
+                        el.style.maxHeight = "0px";
+                        el.previousElementSibling.querySelector('span:last-child').style.transform = 'rotate(0deg)';
+                    }
+                });
+                // Toggle current accordion
+                if (isOpen) {
+                    contentDiv.style.maxHeight = "0px";
+                    button.querySelector('span:last-child').style.transform = 'rotate(0deg)';
+                } else {
+                    contentDiv.style.maxHeight = contentDiv.scrollHeight + "px";
+                    button.querySelector('span:last-child').style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        // Data for Principles Rectores
+        const principlesData = [
+            { icon: '👤', title: 'Respeto a las personas' },
+            { icon: '💖', title: 'Beneficencia' },
+            { icon: '⚖️', title: 'Justicia' },
+            { icon: '🤝', title: 'Ética y Responsabilidad' },
+            { icon: '🔍', title: 'Transparencia y Explicabilidad' },
+            { icon: '🌍', title: 'Equidad y No Discriminación' },
+            { icon: '🔒', title: 'Privacidad y Confidencialidad' },
+            { icon: '⚖️', title: 'Proporcionalidad/Inocuidad' },
+            { icon: '🛡️', title: 'Seguridad y Fiabilidad' },
+            { icon: '🌱', title: 'Sostenibilidad Ambiental' },
+            { icon: '👁️', title: 'Supervisión Humana' },
+            { icon: ' accountability', title: 'Rendición de Cuentas' }
+        ];
+
+        const principlesContainer = document.getElementById('principlesContainer');
+        principlesData.forEach(principle => {
+            const principleCard = document.createElement('div');
+            principleCard.classList.add('card', 'flex', 'items-center', 'p-3');
+            principleCard.innerHTML = `
+                <span class="icon-style">${principle.icon}</span>
+                <h4 class="text-md font-semibold">${principle.title}</h4>
+            `;
+            principlesContainer.appendChild(principleCard);
+        });
+
+        // Gemini API Integration for Term Consultant
+        const iaTermInput = document.getElementById('iaTermInput');
+        const consultIaButton = document.getElementById('consultIaButton');
+        const iaTermResponse = document.getElementById('iaTermResponse');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        consultIaButton.addEventListener('click', async () => {
+            const term = iaTermInput.value.trim();
+            if (!term) {
+                iaTermResponse.innerHTML = '<p class="text-red-500">Por favor, ingresa un término para consultar.</p>';
+                return;
+            }
+
+            iaTermResponse.innerHTML = '<p>Cargando...</p>';
+            loadingSpinner.classList.remove('hidden');
+            consultIaButton.disabled = true;
+
+            try {
+                let chatHistory = [];
+                const prompt = `Explica el término '${term}' en el contexto del Proyecto de Ley para Regular la Inteligencia Artificial en Colombia, de manera concisa y fácil de entender. Si el término no está directamente relacionado con la ley, explica su relevancia general en el ámbito de la IA.`;
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                const payload = { contents: chatHistory };
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    iaTermResponse.innerHTML = `<p>${text}</p>`;
+                } else {
+                    iaTermResponse.innerHTML = '<p class="text-red-500">No se pudo obtener una explicación para el término. Intenta con otro.</p>';
+                }
+            } catch (error) {
+                console.error('Error al consultar la API de Gemini:', error);
+                iaTermResponse.innerHTML = '<p class="text-red-500">Ocurrió un error al conectar con el consultor de IA. Por favor, inténtalo de nuevo más tarde.</p>';
+            } finally {
+                loadingSpinner.classList.add('hidden');
+                consultIaButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
